@@ -1,20 +1,19 @@
 'use strict';
 
-angular.module('IndexOfApp')
+angular.module('IndexOfApp', ['firebase'])
 
-.constant('baseURL','http://localhost:3000/')
+// .constant('baseURL', 'https://startup-chief.firebaseio.com/')
 
-.service('IndexFactory', ['$resource', 'baseURL',
-  function($resource,baseURL) {
-    this.getHellow = function() {
-      return $resource(baseURL + 'hellow/', null, {
-          'update': {
-              method: 'PUT'
-          }
-      });
+.factory('IndexFactory', function myService(angularFire) {
+    var _url = 'https://startup-chief.firebaseio.com/';
+    var _ref = new Firebase(_url)
+
+    return {
+        items: function(scope, localScopeVarName) {
+            angularFire(_ref, scope, localScopeVarName);
+        }
     };
-  }
-])
+});
 
 
 ;
